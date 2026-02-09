@@ -24,4 +24,3 @@ workflows:
           - zariouhx@gmail.com
         notify:
           success: true
-        failure: true
