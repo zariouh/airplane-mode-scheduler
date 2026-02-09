@@ -1,0 +1,35 @@
+workflows:
+  android-build:
+    name: Build Android APK
+    instance_type: linux
+    max_build_duration: 60
+    
+    environment:
+      vars:
+        GRADLE_OPTS: "-Xmx4096m -Dorg.gradle.daemon=false"
+    
+    scripts:
+      - name: Set up JDK
+        script: |
+          export JAVA_HOME=$JAVA_HOME_17_X64
+          export PATH=$JAVA_HOME/bin:$PATH
+          java -version
+      
+      - name: Grant Gradle permissions
+        script: |
+          chmod +x gradlew
+      
+      - name: Build Debug APK
+        script: |
+          ./gradlew assembleDebug --stacktrace
+    
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
+    
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
+        notify:
+          success: true
+          failure: true
